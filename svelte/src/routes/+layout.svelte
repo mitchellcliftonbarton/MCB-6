@@ -1,0 +1,77 @@
+<script>
+	import '../styles/global.css';
+	import MainNav from '$lib/components/MainNav.svelte';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
+
+	// data prop
+	export let data;
+
+	// get site settings from data
+	const { siteSettings } = data;
+
+	let showGrid = false;
+
+	// handle navigation
+	beforeNavigate((event) => {
+		console.log({
+			beforeNavigate: event
+		});
+
+		document.body.classList.add('loading');
+	});
+
+	afterNavigate((event) => {
+		console.log({
+			afterNavigate: event
+		});
+
+		document.body.classList.remove('loading');
+	});
+</script>
+
+<svelte:head>
+	<meta name="description" content={siteSettings.metaDescription} />
+	<meta property="og:title" content="Mitchell Barton" />
+	<meta property="og:description" content={siteSettings.metaDescription} />
+	<meta property="og:site_name" content="Mitchell Barton" />
+	<meta property="og:locale" content="en_US" />
+	{#if siteSettings.ogImage?.asset?.url}
+		<meta property="og:image" content={siteSettings.ogImage.asset.url} />
+	{/if}
+</svelte:head>
+
+<div class={`main-container ${showGrid ? 'show-grid' : ''}`}>
+	<div class="grid-system w-full h-base-1/2 bg-grey-1"></div>
+
+	<MainNav />
+
+	<div class="grid-system w-full h-base-1/2 bg-grey-1"></div>
+
+	<main class="px-base-1/2">
+		<slot />
+	</main>
+
+	<div
+		class="grid-system fixed top-0 left-0 w-full h-full flex justify-between z-[-1] pointer-events-none"
+	>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+		<div class="w-base-1/2 h-full bg-grey-1"></div>
+	</div>
+</div>
+
+<style>
+	main {
+		padding-top: var(--nav-height);
+	}
+</style>
