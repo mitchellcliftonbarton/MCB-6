@@ -50,6 +50,7 @@
 
 	function openCarousel(index) {
 		if (carouselComponent) {
+			document.body.style.overflow = 'hidden';
 			carouselComponent.setSlide({ index });
 			carouselOpen = true;
 		}
@@ -64,7 +65,7 @@
 	<title>Mitchell Barton</title>
 </svelte:head>
 
-<div class="mt-40">
+<div class="mt-16 pb-60">
 	{#if siteSettings.announcement?.length > 0}
 		<div
 			class="announcement w-full text-center border border-light-grey rich-text p-base-1/2 text-black"
@@ -74,7 +75,7 @@
 	{/if}
 
 	{#if homePage?.gridItems?.length > 0}
-		<div class="main-content grid grid-cols-12 gap-x-base-1/2 gap-y-16 delay-100 items-end">
+		<div class="main-content grid grid-cols-12 gap-x-base-1/2 gap-y-32 delay-100 items-center">
 			{#each gridItems as item, index}
 				<svelte:component
 					this={item.component}
@@ -99,7 +100,11 @@
 <style lang="postcss">
 	:global(.sticky-block) {
 		position: sticky;
-		top: var(--nav-height);
+		top: var(--nav-height-mobile);
+
+		@media screen and (min-width: 1024px) {
+			top: var(--nav-height);
+		}
 	}
 
 	.announcement + .main-content {

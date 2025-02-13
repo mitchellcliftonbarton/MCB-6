@@ -1,7 +1,14 @@
 <script>
 	import '../styles/global.css';
 	import MainNav from '$lib/components/MainNav.svelte';
-	import { beforeNavigate, afterNavigate } from '$app/navigation';
+	import SearchModal from '$lib/components/SearchModal.svelte';
+	import { searchActive, isLargeQuery } from '$lib/stores/globalStore';
+	import { beforeNavigate } from '$app/navigation';
+	import { onMount } from 'svelte';
+
+	if (typeof window !== 'undefined') {
+		import('lazysizes');
+	}
 
 	// data prop
 	export let data;
@@ -12,22 +19,23 @@
 	let showGrid = false;
 
 	// handle navigation
-	beforeNavigate((event) => {
-		console.log({
-			beforeNavigate: event
-		});
-
-		document.body.classList.add('loading');
+	beforeNavigate(() => {
+		$searchActive = false;
 	});
 
-	afterNavigate((event) => {
-		console.log({
-			afterNavigate: event
-		});
-
-		document.body.classList.remove('loading');
+	onMount(() => {
+		$isLargeQuery = window.matchMedia('(min-width: 1024px)').matches;
 	});
+
+	// listen for command k shortcut
+	const handleKeyDown = (event) => {
+		if (event.metaKey && event.key === 'k') {
+			$searchActive = !$searchActive;
+		}
+	};
 </script>
+
+<svelte:window on:keydown={handleKeyDown} />
 
 <svelte:head>
 	<meta name="description" content={siteSettings.metaDescription} />
@@ -47,9 +55,11 @@
 
 	<div class="grid-system w-full h-base-1/2 bg-grey-1"></div>
 
-	<main class="px-base-1/2">
+	<main class="px-4 lg:px-base-1/2">
 		<slot />
 	</main>
+
+	<SearchModal active={$searchActive} on:closeSearch={() => ($searchActive = false)} />
 
 	<div
 		class="grid-system fixed top-0 left-0 w-full h-full flex justify-between z-[-1] pointer-events-none"
@@ -72,6 +82,10 @@
 
 <style>
 	main {
-		padding-top: var(--nav-height);
+		padding-top: var(--nav-height-mobile);
+
+		@media screen and (min-width: 1024px) {
+			padding-top: var(--nav-height);
+		}
 	}
 </style>

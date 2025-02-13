@@ -2,7 +2,7 @@
 	<title>Mitchell Barton | CV/Info</title>
 </svelte:head>
 
-<div class="grid grid-cols-12 gap-base-1/2 pt-20 mb-40">
+<div class="grid grid-cols-12 gap-y-32 lg:gap-base-1/2 pt-20 mb-40">
 	<div class="enter-in-1 col-span-12 lg:col-span-4 lg:col-start-2 lg:border-none">
 		<h1 class="italic mb-8 text-center">Information</h1>
 

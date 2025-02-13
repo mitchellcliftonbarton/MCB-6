@@ -1,8 +1,8 @@
 <script>
 	import { page } from '$app/stores';
-	import { defaultItemsPerPage } from '$lib/stores/paginationStore.js';
 	import MainNavLink from './MainNavLink.svelte';
 	import WipDetailControls from './WipDetailControls.svelte';
+	import NavOptionsDropdown from './NavOptionsDropdown.svelte';
 
 	// define nav links
 	const navLinks = [
@@ -18,13 +18,12 @@
 
 	// get wip data
 	$: wipDetail = $page.data?.wipDetail;
-	$: contextWipArchivePage = wipDetail
-		? Math.floor($page.data.wipDetail.currentIndex / $defaultItemsPerPage) + 1
-		: 1;
 </script>
 
-<header class="w-full px-base-1/2 py-base-1/2 grid grid-cols-12 gap-base-1/2 items-center">
-	<div class="flex items-center col-span-4">
+<header
+	class="w-full px-4 lg:px-base-1/2 py-4 lg:py-base-1/2 grid grid-cols-12 gap-2 lg:gap-base-1/2 items-center"
+>
+	<div class="flex items-center col-span-6 lg:col-span-4">
 		<nav class="h-full flex items-center">
 			<ul>
 				<div>
@@ -49,13 +48,7 @@
 	{#if wipDetail}
 		<WipDetailControls {wipDetail} />
 
-		{#if contextWipArchivePage}
-			<div class="enter-in-1 delay-100 col-span-4 flex justify-end">
-				<a href={contextWipArchivePage === 1 ? '/wip' : `/wip?page_num=${contextWipArchivePage}`}
-					>... WIP ...</a
-				>
-			</div>
-		{/if}
+		<NavOptionsDropdown {wipDetail} />
 	{/if}
 </header>
 
@@ -65,8 +58,12 @@
 		top: 0px;
 		left: 0px;
 		width: 100%;
-		height: var(--nav-height);
+		height: var(--nav-height-mobile);
 		z-index: 500;
+
+		@media screen and (min-width: 1024px) {
+			height: var(--nav-height);
+		}
 	}
 
 	header nav li span {
@@ -79,5 +76,13 @@
 
 	header ul li :global(a.active) {
 		color: var(--primary);
+	}
+
+	header :global(.nav-options-dropdown) {
+		display: none;
+
+		@media screen and (min-width: 1024px) {
+			display: flex;
+		}
 	}
 </style>

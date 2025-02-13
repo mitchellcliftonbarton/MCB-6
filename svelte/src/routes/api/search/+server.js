@@ -5,7 +5,7 @@ export async function POST({ request }) {
 	const { searchTerm } = await request.json();
 
 	const wip =
-		await client.fetch(`*[_type == "wip" && ([title, medium] match "${searchTerm.toLowerCase()}*" || notes[].children[].text match "${searchTerm.toLowerCase()}*")][0...8] {
+		await client.fetch(`*[_type == "wip" && ([title, medium] match "${searchTerm.toLowerCase()}*" || notes[].children[].text match "${searchTerm.toLowerCase()}*" && media != null)][0...8] {
 		title,
     slug,
     medium,

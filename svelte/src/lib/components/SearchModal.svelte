@@ -1,5 +1,5 @@
 <script>
-	import { page } from '$app/stores';
+	// import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import SearchIcon from './SearchIcon.svelte';
 	import SearchListItem from './SearchListItem.svelte';
@@ -10,7 +10,6 @@
 
 	// data
 	const dispatch = createEventDispatcher();
-	// $: view = $page.url.searchParams.get('view') || 'grid';
 	let searchInput, searchTerm;
 	let searchTimeout = null;
 	let searchResults = [];
@@ -65,7 +64,7 @@
 	}
 
 	function handleSubmit() {
-		goto(`/wip/search/${searchTerm}`);
+		goto(`/wip/search?term=${searchTerm}`);
 	}
 </script>
 
@@ -77,7 +76,7 @@
 	<button class="closer fill-parent" on:click={() => dispatch('closeSearch')}></button>
 
 	<div class="modal bg-white flex flex-col border border-black">
-		<div class="flex-none pt-base px-base">
+		<div class="flex-none pt-6 lg:pt-base px-6 lg:px-base">
 			<form on:submit|preventDefault={handleSubmit}>
 				<div class="relative">
 					<SearchIcon />
@@ -86,7 +85,7 @@
 						bind:this={searchInput}
 						bind:value={searchTerm}
 						type="search"
-						placeholder="Search.."
+						placeholder="Search in WIP.."
 						class="w-full bg-transparent text-black placeholder-black border-b border-black text-center"
 					/>
 				</div>
@@ -95,9 +94,9 @@
 
 		<div class="flex-1 flex justify-center items-center relative">
 			{#if isLoading}
-				<div class="loader"></div>
+				<div class="search-loader"></div>
 			{:else if searchTerm && searchTerm !== '' && searchResults.length > 0}
-				<div class="results fill-parent px-base pt-20 pb-40 overflow-y-auto">
+				<div class="results fill-parent px-6 lg:px-base pt-8 lg:pt-20 pb-40 overflow-y-auto">
 					<ul>
 						{#each searchResults as result}
 							<li>
@@ -108,7 +107,7 @@
 
 					<div class="flex justify-center mt-8">
 						<a
-							href={`/wip/search/${searchTerm}`}
+							href={`/wip/search?term=${searchTerm}`}
 							class="bg-yellow lg:hover:bg-black lg:hover:text-white text-center py-6 px-6 inline-block"
 							>View all results</a
 						>
@@ -143,14 +142,17 @@
 
 	.modal {
 		z-index: 10;
-		min-width: 500px;
-		max-width: 700px;
-		width: 50vw;
-		height: 50svh;
+		width: 90vw;
+		height: 70svh;
 		min-height: 300px;
 		max-height: 500px;
-		/* transform: translateY(35px);
-		transition: transform 1s var(--curve); */
+
+		@media screen and (min-width: 1024px) {
+			min-width: 500px;
+			max-width: 700px;
+			width: 50vw;
+			height: 50svh;
+		}
 	}
 
 	.search-modal.active .modal {
@@ -183,7 +185,7 @@
 		color: var(--white);
 	}
 
-	.loader {
+	.search-loader {
 		width: 150px;
 		height: 20px;
 		/* border: 1px solid var(--black); */
@@ -191,7 +193,7 @@
 		position: relative;
 	}
 
-	.loader::before {
+	.search-loader::before {
 		content: '';
 		position: absolute;
 		top: 0;

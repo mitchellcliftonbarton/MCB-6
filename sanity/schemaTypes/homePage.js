@@ -90,13 +90,6 @@ export default {
               },
               initialValue: '3',
             },
-            {
-              title: 'Disable Lazy Loading',
-              name: 'disableLazyLoading',
-              type: 'boolean',
-              description:
-                'If checked, the image will load immediately instead of waiting for it to scroll into view',
-            },
           ],
           preview: {
             select: {

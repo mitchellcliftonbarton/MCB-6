@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 :root {
-	--text-sm: 1.3rem;
+	--text-sm: 1.2rem;
 	--text-base: 1.65rem;
 	--text-lg: 6.8rem;
 	--nav-height: 6.5rem;
-	--nav-height-mobile: 5.5rem;
+	--nav-height-mobile: 5rem;
 	--curve: cubic-bezier(0, 0.84, 0.24, 1);
 	--base-spacing: 2.4rem;
 	--base-spacing-half: 1.2rem;
@@ -31,6 +31,7 @@
 	--grey-6: #666666;
 	--grey-7: #333333;
 	--grey-8: #1a1a1a;
+	--pink: #ffdddd;
 }
 
 @font-face {
@@ -55,6 +56,7 @@ body {
 	font-size: var(--text-sm);
 	letter-spacing: 0.1rem;
 	cursor: initial;
+	line-height: 1.23;
 }
 
 body.loading {
@@ -183,7 +185,7 @@ Animations
 	opacity: 0;
 	/* transform: translateY(10px); */
 	/* animation: enterIn1 2s forwards var(--curve); */
-	animation: fadeIn 1s forwards;
+	animation: fadeIn 0.5s forwards;
 }
 
 .delay-100 {
@@ -192,4 +194,19 @@ Animations
 
 .delay-200 {
 	animation-delay: 200ms;
+}
+
+/*
+Lazy Load
+*/
+
+img[data-src]:not(.lazyloaded),
+img[data-srcset]:not(.lazyloaded) {
+	opacity: 0;
+}
+
+img[data-src].lazyloaded,
+img[data-srcset].lazyloaded {
+	opacity: 1;
+	transition: opacity 0.4s;
 }

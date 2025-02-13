@@ -1,5 +1,8 @@
 import { client } from '$lib/sanity/client.js';
 import { goto } from '$app/navigation';
+
+// export const prerender = true;
+
 export async function load({ url }) {
 	const detail = url.searchParams.get('detail');
 
@@ -15,7 +18,6 @@ export async function load({ url }) {
 			text,
 			columnCount,
 			alt,
-			disableLazyLoading,
 			image{
 				asset->{
 					...,

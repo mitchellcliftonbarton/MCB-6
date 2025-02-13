@@ -4,6 +4,7 @@
 	import { components } from '$lib/utils';
 	import { createEventDispatcher } from 'svelte';
 	import Plus from './Plus.svelte';
+	import { isLargeQuery } from '$lib/stores/globalStore';
 
 	// props
 	export let item;
@@ -12,7 +13,8 @@
 	const { slug, columnCount, text, imageData, alt } = item;
 
 	// setting width class
-	const widthClass = columnCount !== '' ? `col-span-${columnCount}` : 'col-span-3';
+	const widthClass =
+		columnCount !== '' ? `col-span-12 lg:col-span-${columnCount}` : 'col-span-12 lg:col-span-3';
 
 	// setup event dispatcher
 	const dispatch = createEventDispatcher();
@@ -28,42 +30,40 @@
 		const href = linkEl.href;
 
 		// programmatically navigate to the href
-		console.log('set detail url');
-		goto(href);
+		goto(href, {
+			noScroll: true
+		});
 
 		// dispatch the event
 		dispatch('imageClicked', item);
 	}
 </script>
 
-<a
-	href={`/?detail=${slug.current}`}
-	class={`home-image-item enter-in-1 ${widthClass}`}
-	on:click={handleClick}
-	bind:this={linkEl}
->
-	<figure class="sticky-block">
-		<div style:aspect-ratio={imageData.aspectRatio} class="relative bg-grey-1">
-			<img
-				srcset={imageData.srcset}
-				sizes={imageData.sizes}
-				{alt}
-				fetchpriority="high"
-				class="media-cover"
-			/>
+<div class={`home-image-item enter-in-1 px-8 lg:px-[10vw] ${widthClass}`}>
+	<a href={`/?detail=${slug.current}`} on:click={handleClick} bind:this={linkEl}>
+		<figure class="sticky-block">
+			<div style:aspect-ratio={imageData.aspectRatio} class="relative bg-grey-1">
+				<img
+					data-srcset={imageData.srcset}
+					sizes={imageData.sizes}
+					{alt}
+					fetchpriority="high"
+					class="lazyload media-cover"
+				/>
 
-			<div class="image-hover fill-parent"></div>
+				<div class="image-hover fill-parent"></div>
 
-			<div class="plus">
-				<Plus />
+				<div class="plus">
+					<Plus />
+				</div>
 			</div>
-		</div>
 
-		<figcaption class="text-center mt-3 px-base leading-tight">
-			<PortableText value={text} {components} />
-		</figcaption>
-	</figure>
-</a>
+			<figcaption class="mt-3 lg:px-base flex justify-center items-start text-center leading-tight">
+				<PortableText value={text} {components} />
+			</figcaption>
+		</figure>
+	</a>
+</div>
 
 <style>
 	.home-image-item {
@@ -78,31 +78,34 @@
 		transition: opacity 0.3s;
 	}
 
-	/* .home-image-item:hover .image-hover {
-		opacity: 1;
-	} */
-
-	/* .home-image-item:hover img {
-		filter: grayscale(100%);
-	} */
-
 	.plus {
 		background-color: var(--white);
-		opacity: 0;
-		/* transition: opacity 0.3s; */
+		opacity: 1;
 		position: absolute;
-		top: 50%;
+		bottom: 0px;
 		left: 50%;
-		transform: translate(-50%, -50%);
-		/* mix-blend-mode: difference; */
-		/* color: var(--white); */
+		transform: translateX(-50%);
+
+		@media screen and (min-width: 1024px) {
+			opacity: 0;
+			bottom: auto;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
 	}
 
 	.plus :global(.plus-icon) {
-		width: 10rem;
+		width: 1rem;
+
+		@media screen and (min-width: 1024px) {
+			width: 10rem;
+		}
 	}
 
-	.home-image-item:hover .plus {
-		opacity: 1;
+	@media screen and (min-width: 1024px) {
+		.home-image-item a:hover .plus {
+			opacity: 1;
+		}
 	}
 </style>

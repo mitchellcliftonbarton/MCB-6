@@ -1,5 +1,5 @@
 import { getWipData } from '$lib/wipUtils.js';
-import { defaultItemsPerPage } from '$lib/stores/paginationStore';
+import { defaultItemsPerPage } from '$lib/stores/globalStore';
 import { get } from 'svelte/store';
 
 export async function load({ url }) {

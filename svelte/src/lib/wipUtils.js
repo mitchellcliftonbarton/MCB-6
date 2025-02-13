@@ -1,6 +1,6 @@
 import { client, wipFragment } from '$lib/sanity/client.js';
 
-export async function getWipData(pageNum, itemsPerPage) {
+export async function getWipData(pageNum, itemsPerPage, searchTerm = null) {
 	// convert pageNum and itemsPerPage to numbers
 	pageNum = pageNum ? parseInt(pageNum) : 1; // if pageNum is not provided, set it to 1
 	itemsPerPage = parseInt(itemsPerPage);
@@ -9,18 +9,35 @@ export async function getWipData(pageNum, itemsPerPage) {
 	const offset = (pageNum - 1) * itemsPerPage;
 	const itemsPerPagePlusOne = offset + itemsPerPage + 1;
 
-	const wip = await client.fetch(
-		`{
+	let wip = false;
+
+	if (searchTerm !== null && searchTerm !== '') {
+		wip = await client.fetch(
+			`{
+        "currentPageData": *[_type == "wip" && ([title, medium] match "${searchTerm.toLowerCase()}*" || notes[].children[].text match "${searchTerm.toLowerCase()}*" && media != null)] | order(date desc, _createdAt desc) [$offset...$itemsPerPagePlusOne] {
+          ${wipFragment}
+        },
+				"totalCount": count(*[_type == "wip" && ([title, medium] match "${searchTerm.toLowerCase()}*" || notes[].children[].text match "${searchTerm.toLowerCase()}*" && media != null)])
+      }`,
+			{
+				itemsPerPagePlusOne,
+				offset
+			}
+		);
+	} else {
+		wip = await client.fetch(
+			`{
         "currentPageData": *[_type == "wip" && media != null] | order(date desc, _createdAt desc) [$offset...$itemsPerPagePlusOne] {
           ${wipFragment}
         },
 				"totalCount": count(*[_type == "wip" && media != null])
       }`,
-		{
-			itemsPerPagePlusOne,
-			offset
-		}
-	);
+			{
+				itemsPerPagePlusOne,
+				offset
+			}
+		);
+	}
 
 	// check for errors
 	if (wip.error) {
@@ -51,8 +68,15 @@ export async function getWipData(pageNum, itemsPerPage) {
 			}
 		: false;
 
+	const range = {
+		from: offset + 1,
+		to: offset + slicedWipItems.length
+	};
+
 	return {
 		wip: slicedWipItems,
+		totalCount,
+		range,
 		paginationData: {
 			isLastPage,
 			isFirstPage,

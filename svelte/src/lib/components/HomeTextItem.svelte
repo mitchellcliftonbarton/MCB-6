@@ -8,8 +8,6 @@
 	const { columnCount, text } = item;
 
 	const widthClass = columnCount !== '' ? `col-span-${columnCount}` : 'col-span-3';
-
-	console.log(widthClass);
 </script>
 
 <div class={`${widthClass} enter-in-1`}>

@@ -46,13 +46,10 @@
 </script>
 
 <img
-	{srcset}
+	data-srcset={srcset}
 	{sizes}
 	{alt}
 	loading={disableLazyLoading ? 'eager' : 'lazy'}
 	fetchpriority={disableLazyLoading ? 'high' : 'auto'}
-	class={classes}
-	on:load={() => {
-		console.log('image loaded');
-	}}
+	class={`lazyload ${classes}`}
 />

@@ -32,8 +32,9 @@
 		const detail = urlParams.get('detail');
 
 		if (detail) {
-			console.log('set detail url');
-			goto(`/?detail=${imageItems[index].slug.current}`);
+			goto(`/?detail=${imageItems[index].slug.current}`, {
+				noScroll: true
+			});
 		}
 
 		// set the current index
@@ -83,15 +84,15 @@
 					const index = imageItems.findIndex((item) => item.slug.current === detail);
 
 					if (carouselOpen) {
-						console.log('popstate, carousel was open, scroll to index');
+						// console.log('popstate, carousel was open, scroll to index');
 						emblaApi.scrollTo(index);
 					} else {
-						console.log('popstate, carousel was closed, jump to index and open');
+						// console.log('popstate, carousel was closed, jump to index and open');
 						emblaApi.scrollTo(index, true);
 						dispatch('setCarouselOpen', true);
 					}
 				} else {
-					console.log('popstate, no detail, close');
+					// console.log('popstate, no detail, close');
 					dispatch('setCarouselOpen', false);
 				}
 			});
@@ -120,9 +121,12 @@
 		event.preventDefault();
 
 		// programmatically navigate to the href
-		goto('/');
+		goto('/', {
+			noScroll: true
+		});
 
 		dispatch('setCarouselOpen', false);
+		document.body.style.overflow = 'initial';
 	}
 
 	function handlePrevious() {
@@ -144,25 +148,39 @@
 		: ''} {carouselInit ? 'carousel-init' : ''}"
 >
 	<div
-		class="carousel-header flex-none relative flex justify-center items-center px-base-1/2 py-base"
+		class="carousel-header flex-none relative flex justify-between lg:justify-center items-center px-4 lg:px-base-1/2 py-4 lg:py-base"
 	>
-		<p class="indexes">
+		<div class="lg:hidden flex items-center gap-4 w-1/4">
+			<button class="prev arrow" on:click={handlePrevious}>
+				<span class="sr-only">Previous</span>
+				<LeftArrow />
+			</button>
+
+			<button class="next arrow" on:click={handleNext}>
+				<span class="sr-only">Next</span>
+				<RightArrow />
+			</button>
+		</div>
+
+		<p class="indexes w-1/2 lg:w-auto flex justify-center items-center">
 			<span>{currentIndex}</span><span>/{imageItems.length}</span>
 		</p>
 
-		<a
-			href="/"
-			class="closer lg:hover:text-primary transition-colors duration-300 absolute right-[2.7rem]"
-			on:click={handleCloseCarousel}
-		>
-			<span class="sr-only">Close</span>
-			<XAlt />
-		</a>
+		<div class="lg:absolute lg:right-[2.7rem] w-1/4 lg:w-auto flex justify-end items-center">
+			<a
+				href="/"
+				class="closer lg:hover:text-primary transition-colors duration-300"
+				on:click={handleCloseCarousel}
+			>
+				<span class="sr-only">Close</span>
+				<XAlt />
+			</a>
+		</div>
 	</div>
 
 	<div class="flex-1 flex items-center justify-center relative">
 		<button
-			class="prev arrow absolute left-base top-1/2 -translate-y-1/2 z-10"
+			class="prev arrow hidden lg:block absolute left-base top-1/2 -translate-y-1/2 z-10"
 			on:click={handlePrevious}
 		>
 			<span class="sr-only">Previous</span>
@@ -170,7 +188,7 @@
 		</button>
 
 		<button
-			class="next arrow absolute right-base top-1/2 -translate-y-1/2 z-10"
+			class="next arrow hidden lg:block absolute right-base top-1/2 -translate-y-1/2 z-10"
 			on:click={handleNext}
 		>
 			<span class="sr-only">Next</span>
@@ -182,13 +200,13 @@
 				<div class="embla__container">
 					{#each imageItems as item}
 						<div class="embla__slide relative">
-							<figure class="fill-parent">
+							<figure class="fill-parent px-4 lg:p-0">
 								<img
 									loading="lazy"
-									srcset={item.imageData.srcset}
+									data-srcset={item.imageData.srcset}
 									sizes={item.imageData.sizes}
 									alt={item.alt}
-									class="media-contain"
+									class="lazyload media-contain"
 								/>
 							</figure>
 						</div>
@@ -198,7 +216,7 @@
 		</div>
 	</div>
 
-	<div class="captions flex-none py-base px-base-1/2 text-center">
+	<div class="captions flex-none py-8 lg:py-base px-4 lg:px-base-1/2 text-center">
 		{#if imageItems[currentIndex - 1].text}
 			<PortableText value={imageItems[currentIndex - 1].text} {components} />
 		{/if}
@@ -235,7 +253,11 @@
 	}
 
 	.closer :global(svg) {
-		width: 2.5rem;
+		width: 1.8rem;
+
+		@media screen and (min-width: 1024px) {
+			width: 2.5rem;
+		}
 	}
 
 	.arrow {
@@ -243,11 +265,17 @@
 	}
 
 	.arrow :global(svg) {
-		width: 3rem;
+		width: 1.5rem;
+
+		@media screen and (min-width: 1024px) {
+			width: 3rem;
+		}
 	}
 
-	.arrow:hover {
-		color: var(--primary);
+	@media screen and (min-width: 1024px) {
+		.arrow:hover {
+			color: var(--primary);
+		}
 	}
 
 	.indexes,
@@ -285,5 +313,12 @@
 	.embla__slide {
 		flex: 0 0 100%;
 		min-width: 0;
+		margin-right: 15vw;
+		margin-left: 15vw;
+
+		@media screen and (min-width: 1024px) {
+			margin-right: 0;
+			margin-left: 0;
+		}
 	}
 </style>

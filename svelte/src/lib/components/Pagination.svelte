@@ -3,7 +3,8 @@
 	import PaginationLink from './PaginationLink.svelte';
 
 	// props
-	export let paginationData;
+	export let paginationData,
+		basePath = '/wip';
 
 	// data
 	const dispatch = createEventDispatcher();
@@ -17,10 +18,18 @@
 
 	// parse link function
 	function parseLink(num) {
+		// create phony url with the base path added to it
+		const url = new URL('https://test.com' + basePath);
+
+		// if the page number is 1, just return the base path
 		if (num === 1) {
-			return `/wip`;
+			return `${basePath}`;
 		} else {
-			return `/wip?page_num=${num}`;
+			// otherwise, add the page number to the search params
+			url.searchParams.set('page_num', num);
+
+			// then just return the pathname and search params
+			return url.pathname + '?' + url.searchParams.toString();
 		}
 	}
 
@@ -124,10 +133,10 @@
 	}
 </script>
 
-<div class="pagination flex justify-center mt-20">
+<div class="pagination flex justify-center mt-20 enter-in-1 delay-100">
 	{#if !isFirstPage}
 		<PaginationLink
-			href={`/wip${prevPageLink.pageNum > 1 ? `?page_num=${prevPageLink.pageNum}` : ''}`}
+			href={parseLink(prevPageLink.pageNum)}
 			label="Prev"
 			on:pagination-link-clicked={handlePaginationLinkClicked}
 			on:set-loading={handleSetLoading}
@@ -155,7 +164,7 @@
 
 	{#if !isLastPage}
 		<PaginationLink
-			href={`/wip?page_num=${nextPageLink.pageNum}`}
+			href={parseLink(nextPageLink.pageNum)}
 			label="Next"
 			on:pagination-link-clicked={handlePaginationLinkClicked}
 			on:set-loading={handleSetLoading}

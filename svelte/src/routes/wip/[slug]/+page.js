@@ -1,6 +1,8 @@
 import { client } from '$lib/sanity/client.js';
 import { error } from '@sveltejs/kit';
 
+// export const prerender = true;
+
 export async function load({ params }) {
 	const { slug = '' } = params || {};
 
