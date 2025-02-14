@@ -27,10 +27,12 @@
 	beforeNavigate(() => {
 		NProgress.start();
 		$searchActive = false;
+		document.body.classList.add('loading');
 	});
 
 	afterNavigate(() => {
 		NProgress.done();
+		document.body.classList.remove('loading');
 	});
 
 	onMount(() => {

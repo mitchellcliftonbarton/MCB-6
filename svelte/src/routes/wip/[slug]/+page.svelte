@@ -6,8 +6,9 @@
 	import Video from '$lib/components/Video.svelte';
 	import WipGridItem from '$lib/components/WipGridItem.svelte';
 	import NavOptionsDropdown from '$lib/components/NavOptionsDropdown.svelte';
-	import { onMount } from 'svelte';
 	import DotLoader from '$lib/components/DotLoader.svelte';
+	import { afterUpdate } from 'svelte';
+
 	// props
 	export let data;
 
@@ -16,6 +17,10 @@
 
 	let showNotes = false;
 	let loaded = false;
+
+	afterUpdate(() => {
+		loaded = false;
+	});
 </script>
 
 <svelte:head>
@@ -77,7 +82,9 @@
 							</div>
 						{/if}
 
-						<figure class={media.asset?.metadata?.dimensions?.aspectRatio ? 'fill-parent' : ''}>
+						<figure
+							class={`${media.asset?.metadata?.dimensions?.aspectRatio ? 'fill-parent' : ''}`}
+						>
 							{#if media._type === 'Image' && media.asset}
 								<Image
 									image={media}
