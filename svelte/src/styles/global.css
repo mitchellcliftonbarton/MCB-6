@@ -67,6 +67,11 @@ body.loading * {
 	cursor: progress !important;
 }
 
+body #nprogress .bar {
+	height: 2px;
+	background-color: red;
+}
+
 .grid-system {
 	display: none;
 }

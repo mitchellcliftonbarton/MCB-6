@@ -3,8 +3,13 @@
 	import MainNav from '$lib/components/MainNav.svelte';
 	import SearchModal from '$lib/components/SearchModal.svelte';
 	import { searchActive, isLargeQuery } from '$lib/stores/globalStore';
-	import { beforeNavigate } from '$app/navigation';
+	import { beforeNavigate, afterNavigate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import NProgress from 'nprogress';
+	import 'nprogress/nprogress.css';
+
+	// configure nprogress
+	NProgress.configure({ showSpinner: false });
 
 	if (typeof window !== 'undefined') {
 		import('lazysizes');
@@ -20,7 +25,12 @@
 
 	// handle navigation
 	beforeNavigate(() => {
+		NProgress.start();
 		$searchActive = false;
+	});
+
+	afterNavigate(() => {
+		NProgress.done();
 	});
 
 	onMount(() => {
