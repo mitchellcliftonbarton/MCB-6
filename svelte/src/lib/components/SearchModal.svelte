@@ -73,7 +73,9 @@
 		? 'active'
 		: ''}"
 >
-	<button class="closer fill-parent" on:click={() => dispatch('closeSearch')}></button>
+	<button class="closer fill-parent" on:click={() => dispatch('closeSearch')}>
+		<span class="sr-only">Close Search</span>
+	</button>
 
 	<div class="modal bg-white flex flex-col border border-black">
 		<div class="flex-none pt-6 lg:pt-base px-6 lg:px-base">

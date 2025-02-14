@@ -1,9 +1,16 @@
 <script>
 	import { urlFor } from '$lib/sanity/client';
+	import { onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 
 	// props
 	export let image, alt, disableLazyLoading, classes;
 	export let maxSize = 'lg';
+
+	let imgElement;
+
+	// setup event dispatcher
+	const dispatch = createEventDispatcher();
 
 	// build image urls
 	let imageUrls = [];
@@ -43,9 +50,19 @@
 	// build srcset and sizes strings
 	$: srcset = imageUrls.map((image) => `${image.url} ${image.width}w`).join(', ');
 	$: sizes = imageUrls.map((image) => `(max-width: ${image.width}px) ${image.width}px`).join(', ');
+
+	// on mount
+	onMount(() => {
+		if (imgElement) {
+			imgElement.addEventListener('lazyloaded', () => {
+				dispatch('lazyLoaded');
+			});
+		}
+	});
 </script>
 
 <img
+	bind:this={imgElement}
 	data-srcset={srcset}
 	{sizes}
 	{alt}

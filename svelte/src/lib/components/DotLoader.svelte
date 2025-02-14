@@ -9,8 +9,8 @@
 
 	.loader span {
 		margin: 0 0.4rem;
-		width: 0.4rem;
-		height: 0.4rem;
+		width: 0.3rem;
+		height: 0.3rem;
 		background-color: var(--black);
 		display: inline-block;
 	}
@@ -19,8 +19,8 @@
 	.loader:after {
 		content: '';
 		margin: 0 0.4rem;
-		width: 0.4rem;
-		height: 0.4rem;
+		width: 0.3rem;
+		height: 0.3rem;
 		background-color: var(--black);
 		display: inline-block;
 	}

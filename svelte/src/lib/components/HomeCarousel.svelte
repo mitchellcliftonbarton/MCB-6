@@ -172,7 +172,7 @@
 				class="closer lg:hover:text-primary transition-colors duration-300"
 				on:click={handleCloseCarousel}
 			>
-				<span class="sr-only">Close</span>
+				<span class="sr-only">Close Carousel</span>
 				<XAlt />
 			</a>
 		</div>

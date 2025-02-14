@@ -7,7 +7,7 @@
 	import WipGridItem from '$lib/components/WipGridItem.svelte';
 	import NavOptionsDropdown from '$lib/components/NavOptionsDropdown.svelte';
 	import { onMount } from 'svelte';
-
+	import DotLoader from '$lib/components/DotLoader.svelte';
 	// props
 	export let data;
 
@@ -15,10 +15,7 @@
 	$: wip = data.wipDetail;
 
 	let showNotes = false;
-
-	onMount(() => {
-		console.log(wip.media);
-	});
+	let loaded = false;
 </script>
 
 <svelte:head>
@@ -74,9 +71,20 @@
 						class={`image-container relative ${media._type === 'Image' && media.asset ? 'is-image' : 'is-video'}`}
 						style="aspect-ratio: {media.asset?.metadata?.dimensions?.aspectRatio ?? 'auto'};"
 					>
+						{#if media._type === 'Image' && media.asset && !loaded}
+							<div class="fill-parent flex justify-center items-center">
+								<DotLoader />
+							</div>
+						{/if}
+
 						<figure class={media.asset?.metadata?.dimensions?.aspectRatio ? 'fill-parent' : ''}>
 							{#if media._type === 'Image' && media.asset}
-								<Image image={media} alt={media.alt} classes="media-cover" />
+								<Image
+									image={media}
+									alt={media.alt}
+									classes="media-cover"
+									on:lazyLoaded={() => (loaded = true)}
+								/>
 							{:else if media._type === 'Video' && media.file}
 								<Video mediaItem={media} classes="media-contain" />
 							{/if}
@@ -155,7 +163,7 @@
 		}
 	}
 
-	.image > * + * {
+	.wip-container .image > * + * {
 		margin-top: 2rem;
 
 		@media screen and (min-width: 1024px) {
