@@ -15,7 +15,7 @@
 		<LeftArrow />
 	</a>
 
-	<div class="hidden lg:block">
+	<div class="hidden lg:block w-auto lg:w-[60px] text-center">
 		<p>
 			{wipDetail.currentIndex} of {wipDetail.totalCount}
 		</p>
