@@ -64,6 +64,18 @@
 <svelte:window on:keydown={handleKeyDown} />
 
 <svelte:head>
+	<!-- Google tag (gtag.js) -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-5B6FEEPJDB"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() {
+			dataLayer.push(arguments);
+		}
+		gtag('js', new Date());
+
+		gtag('config', 'G-5B6FEEPJDB');
+	</script>
+
 	<meta name="description" content={siteSettings.metaDescription} />
 	<meta property="og:title" content="Mitchell Barton" />
 	<meta property="og:description" content={siteSettings.metaDescription} />
