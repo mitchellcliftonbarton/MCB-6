@@ -22,16 +22,30 @@
 	const { siteSettings } = data;
 
 	let showGrid = false;
+	let loadingTimeout;
 
 	// handle navigation
 	beforeNavigate(() => {
+		// start nprogress
 		NProgress.start();
+
+		// close search
 		$searchActive = false;
-		document.body.classList.add('loading');
+
+		// set loading timeout
+		loadingTimeout = setTimeout(() => {
+			document.body.classList.add('loading');
+		}, 100);
 	});
 
 	afterNavigate(() => {
+		// stop nprogress
 		NProgress.done();
+
+		// clear loading timeout
+		clearTimeout(loadingTimeout);
+
+		// remove loading class
 		document.body.classList.remove('loading');
 	});
 
