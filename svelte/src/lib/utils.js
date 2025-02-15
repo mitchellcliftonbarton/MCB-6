@@ -30,3 +30,21 @@ export function debounce(fn, wait) {
 		timeout = setTimeout(() => fn.apply(this, args), wait);
 	};
 }
+
+export function loadGoogleAnalytics(trackingId) {
+	if (typeof window === 'undefined') return; // Ensure it's client-side
+
+	window.dataLayer = window.dataLayer || [];
+	function gtag() {
+		window.dataLayer.push(arguments);
+	}
+	window.gtag = gtag;
+
+	gtag('js', new Date());
+	gtag('config', trackingId, { send_page_view: false }); // Disable auto pageview tracking
+
+	const script = document.createElement('script');
+	script.async = true;
+	script.src = `https://www.googletagmanager.com/gtag/js?id=${trackingId}`;
+	document.head.appendChild(script);
+}

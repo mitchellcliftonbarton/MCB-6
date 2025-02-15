@@ -7,6 +7,9 @@
 	import { onMount } from 'svelte';
 	import NProgress from 'nprogress';
 	import 'nprogress/nprogress.css';
+	import { loadGoogleAnalytics } from '$lib/utils';
+
+	const GA_TRACKING_ID = 'G-5B6FEEPJDB';
 
 	// configure nprogress
 	NProgress.configure({ showSpinner: false });
@@ -23,6 +26,12 @@
 
 	let showGrid = false;
 	let loadingTimeout;
+
+	onMount(() => {
+		$isLargeQuery = window.matchMedia('(min-width: 1024px)').matches;
+
+		loadGoogleAnalytics(GA_TRACKING_ID);
+	});
 
 	// handle navigation
 	beforeNavigate(() => {
@@ -47,10 +56,13 @@
 
 		// remove loading class
 		document.body.classList.remove('loading');
-	});
 
-	onMount(() => {
-		$isLargeQuery = window.matchMedia('(min-width: 1024px)').matches;
+		if (typeof window !== 'undefined' && window.gtag) {
+			window.gtag('event', 'page_view', {
+				page_path: window.location.pathname,
+				page_title: document.title
+			});
+		}
 	});
 
 	// listen for command k shortcut
@@ -64,18 +76,6 @@
 <svelte:window on:keydown={handleKeyDown} />
 
 <svelte:head>
-	<!-- Google tag (gtag.js) -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=G-5B6FEEPJDB"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag() {
-			dataLayer.push(arguments);
-		}
-		gtag('js', new Date());
-
-		gtag('config', 'G-5B6FEEPJDB');
-	</script>
-
 	<meta name="description" content={siteSettings.metaDescription} />
 	<meta property="og:title" content="Mitchell Barton" />
 	<meta property="og:description" content={siteSettings.metaDescription} />

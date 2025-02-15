@@ -37,6 +37,13 @@
 			});
 		}
 
+		if (typeof window !== 'undefined' && window.gtag) {
+			window.gtag('event', 'page_view', {
+				page_path: window.location.pathname,
+				page_title: document.title
+			});
+		}
+
 		// set the current index
 		currentIndex = index + 1;
 	}

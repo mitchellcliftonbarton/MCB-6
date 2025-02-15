@@ -53,6 +53,13 @@
 			document.body.style.overflow = 'hidden';
 			carouselComponent.setSlide({ index });
 			carouselOpen = true;
+
+			if (typeof window !== 'undefined' && window.gtag) {
+				window.gtag('event', 'page_view', {
+					page_path: window.location.href,
+					page_title: document.title
+				});
+			}
 		}
 	}
 
