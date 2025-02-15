@@ -3,6 +3,15 @@
 	import SearchIcon from '$lib/components/SearchIcon.svelte';
 
 	const toggleSearch = () => {
+		if (typeof window !== 'undefined' && window.gtag) {
+			if (!$searchActive) {
+				window.gtag('event', 'search_button_clicked', {
+					page_path: window.location.pathname,
+					page_title: document.title
+				});
+			}
+		}
+
 		$searchActive = !$searchActive;
 	};
 </script>
