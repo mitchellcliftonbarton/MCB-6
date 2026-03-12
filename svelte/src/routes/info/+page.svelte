@@ -3,8 +3,8 @@
 </svelte:head>
 
 <div class="grid grid-cols-12 gap-y-32 lg:gap-base-1/2 pt-20 mb-40">
-	<div class="enter-in-1 col-span-12 lg:col-span-4 lg:col-start-2 lg:border-none">
-		<h1 class="italic mb-8 text-center">Information</h1>
+	<div class="enter-in-1 col-span-12 lg:col-span-4 lg:border-none">
+		<h1 class="italic mb-8 text-center lg:text-left">Information</h1>
 
 		<div class="rich-text">
 			<p>
@@ -37,7 +37,7 @@
 				>.
 			</p>
 
-			<p>
+			<p class="hidden">
 				His work has been shown online and in real life at Tiger Strikes Asteroid, Arcade on
 				Stadium, Tropical Contemporary, UMOCA, CUAC, Der Grief, A New Nothing, Self Publish Be
 				Happy, The Daily Lazy, In The In-Between, and others.
@@ -53,7 +53,7 @@
 		</div>
 	</div>
 
-	<div class="enter-in-1 delay-100 col-span-12 lg:col-span-5 lg:col-start-7">
+	<div class="enter-in-1 delay-100 col-span-12 lg:col-span-5 lg:col-start-7 hidden">
 		<h2 class="italic mb-8 text-center">CV</h2>
 
 		<div>

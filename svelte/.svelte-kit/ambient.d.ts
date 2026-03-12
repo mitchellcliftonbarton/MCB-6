@@ -33,10 +33,12 @@ declare module '$env/static/private' {
 	export const MAILCHIMP_API_SERVER: string;
 	export const SANITY_DATASET: string;
 	export const SANITY_PROJECT_ID: string;
-	export const MANPATH: string;
+	export const NVM_INC: string;
 	export const TERM_PROGRAM: string;
+	export const VSCODE_GIT_IPC_AUTH_TOKEN: string;
 	export const NODE: string;
 	export const INIT_CWD: string;
+	export const NVM_CD_FLAGS: string;
 	export const SHELL: string;
 	export const TERM: string;
 	export const CLICOLOR: string;
@@ -45,12 +47,12 @@ declare module '$env/static/private' {
 	export const npm_config_global_prefix: string;
 	export const TERM_PROGRAM_VERSION: string;
 	export const MallocNanoZone: string;
-	export const ORIGINAL_XDG_CURRENT_DESKTOP: string;
 	export const CURSOR_TRACE_ID: string;
 	export const COLOR: string;
 	export const npm_config_noproxy: string;
 	export const npm_config_local_prefix: string;
 	export const USER: string;
+	export const PHP_INI_SCAN_DIR: string;
 	export const NVM_DIR: string;
 	export const COMMAND_MODE: string;
 	export const npm_config_globalconfig: string;
@@ -59,6 +61,7 @@ declare module '$env/static/private' {
 	export const npm_execpath: string;
 	export const LSCOLORS: string;
 	export const PATH: string;
+	export const HERD_PHP_84_INI_SCAN_DIR: string;
 	export const npm_package_json: string;
 	export const _: string;
 	export const npm_config_userconfig: string;
@@ -85,6 +88,7 @@ declare module '$env/static/private' {
 	export const LOGNAME: string;
 	export const npm_lifecycle_script: string;
 	export const VSCODE_GIT_IPC_HANDLE: string;
+	export const NVM_BIN: string;
 	export const npm_config_user_agent: string;
 	export const INFOPATH: string;
 	export const HOMEBREW_CELLAR: string;
@@ -132,10 +136,12 @@ declare module '$env/dynamic/private' {
 		MAILCHIMP_API_SERVER: string;
 		SANITY_DATASET: string;
 		SANITY_PROJECT_ID: string;
-		MANPATH: string;
+		NVM_INC: string;
 		TERM_PROGRAM: string;
+		VSCODE_GIT_IPC_AUTH_TOKEN: string;
 		NODE: string;
 		INIT_CWD: string;
+		NVM_CD_FLAGS: string;
 		SHELL: string;
 		TERM: string;
 		CLICOLOR: string;
@@ -144,12 +150,12 @@ declare module '$env/dynamic/private' {
 		npm_config_global_prefix: string;
 		TERM_PROGRAM_VERSION: string;
 		MallocNanoZone: string;
-		ORIGINAL_XDG_CURRENT_DESKTOP: string;
 		CURSOR_TRACE_ID: string;
 		COLOR: string;
 		npm_config_noproxy: string;
 		npm_config_local_prefix: string;
 		USER: string;
+		PHP_INI_SCAN_DIR: string;
 		NVM_DIR: string;
 		COMMAND_MODE: string;
 		npm_config_globalconfig: string;
@@ -158,6 +164,7 @@ declare module '$env/dynamic/private' {
 		npm_execpath: string;
 		LSCOLORS: string;
 		PATH: string;
+		HERD_PHP_84_INI_SCAN_DIR: string;
 		npm_package_json: string;
 		_: string;
 		npm_config_userconfig: string;
@@ -184,6 +191,7 @@ declare module '$env/dynamic/private' {
 		LOGNAME: string;
 		npm_lifecycle_script: string;
 		VSCODE_GIT_IPC_HANDLE: string;
+		NVM_BIN: string;
 		npm_config_user_agent: string;
 		INFOPATH: string;
 		HOMEBREW_CELLAR: string;
