@@ -7,7 +7,7 @@
 	// define nav links
 	const navLinks = [
 		{
-			name: 'Info/CV',
+			name: 'Info',
 			path: '/info'
 		},
 		{
