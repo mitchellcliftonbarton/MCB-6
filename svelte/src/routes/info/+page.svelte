@@ -1,5 +1,5 @@
 <svelte:head>
-	<title>Mitchell Barton | CV/Info</title>
+	<title>Mitchell Barton | Info</title>
 </svelte:head>
 
 <div class="grid grid-cols-12 gap-y-32 lg:gap-base-1/2 pt-20 mb-40">
